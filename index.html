@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INSENTIF BULANAN - PT. Indomarco Prismatama</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* 1. VARIABEL & TEMA */
+        :root {
+            --bg-body: #cbd5e1;
+            --bg-slide: #ffffff;
+            --text-main: #1e293b;
+            --text-sub: #475569;
+            --card-bg: #ffffff;
+            --card-border: #e2e8f0;
+            --indomaret-blue: #003399;
+            --indomaret-yellow: #ffcc00;
+            --indomaret-red: #e11d48;
+            --shadow: 0 15px 35px rgba(0, 51, 153, 0.15);
+            --overlay: rgba(0, 51, 153, 0.85);
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #020617;
+            --bg-slide: #0f172a;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --indomaret-blue: #38bdf8;
+            --shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            --overlay: rgba(2, 6, 23, 0.9);
+        }
+
+        /* 2. CORE SETUP */
+        * { box-sizing: border-box; transition: background-color 0.3s ease, color 0.3s ease; }
+        body, html {
+            margin: 0; padding: 0; height: 100%; width: 100%;
+            background-color: var(--bg-body);
+            font-family: 'Lato', sans-serif;
+            overflow: hidden;
+            background-image: radial-gradient(var(--card-border) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .app-container {
+            width: 100vw; height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        /* 3. SLIDE DESIGN */
+        .slide-view {
+            width: 1280px; height: 720px;
+            background-color: var(--bg-slide);
+            box-shadow: var(--shadow);
+            display: none; flex-direction: column;
+            padding: 40px 60px; position: relative;
+            overflow-y: auto; border-radius: 24px;
+            animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .slide-view::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23003399' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2v-4h4v-2h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2v-4h4v-2H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none; z-index: 0;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .slide-view.active { display: flex; }
+
+        /* 4. NAVIGATION & THEME */
+        .theme-switch {
+            position: fixed; top: 30px; left: 30px; z-index: 9999; 
+            background: var(--indomaret-blue); color: #fff; border: none; 
+            width: 55px; height: 55px; border-radius: 50%; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center;
+            font-size: 22px; transition: 0.3s;
+        }
+
+        .btn-back {
+            position: absolute; top: 40px; right: 60px;
+            background: var(--indomaret-blue); color: #fff;
+            border: none; padding: 12px 25px; border-radius: 12px;
+            font-weight: 800; cursor: pointer; z-index: 1000;
+            display: flex; align-items: center; gap: 10px;
+        }
+
+        /* 5. TYPOGRAPHY */
+        h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; color: var(--text-main); position: relative; z-index: 1; }
+        .slide-title {
+            font-size: 44px; color: var(--indomaret-blue);
+            border-left: 15px solid var(--indomaret-yellow);
+            padding-left: 25px; margin-bottom: 35px; text-transform: uppercase;
+        }
+        p, li { font-size: 18px; color: var(--text-sub); line-height: 1.6; }
+
+        /* 6. COMPONENTS */
+        .pillar-card {
+            background: var(--card-bg); border: 2px solid var(--card-border);
+            border-radius: 15px; padding: 20px 40px; margin-bottom: 10px;
+            display: flex; align-items: center; cursor: pointer; transition: 0.3s;
+        }
+        .pillar-card:hover { transform: translateX(20px); border-color: var(--indomaret-blue); background: rgba(0,51,153,0.05); }
+        .icon-circle {
+            width: 60px; height: 60px; background: var(--indomaret-blue); border-radius: 15px;
+            display: flex; align-items: center; justify-content: center; font-size: 24px; color: #fff; margin-right: 25px;
+        }
+
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 30px; align-items: start; }
+        .image-wrapper { border-radius: 25px; overflow: hidden; border: 4px solid var(--indomaret-blue); background: #fff; box-shadow: var(--shadow); }
+        .image-wrapper img { width: 100%; display: block; }
+
+        .highlight-box {
+            background: var(--highlight-bg); border-left: 8px solid var(--indomaret-yellow);
+            padding: 25px; border-radius: 0 20px 20px 0; margin-bottom: 20px;
+        }
+
+        .interactive-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .interactive-card {
+            background: var(--card-bg); border: 2px solid var(--card-border);
+            border-radius: 20px; padding: 20px; text-align: center; transition: 0.3s;
+        }
+        .interactive-card:hover { border-color: var(--indomaret-blue); transform: translateY(-5px); }
+
+        .footer-accent {
+            height: 12px; width: 100%; position: sticky; bottom: -40px;
+            background: linear-gradient(90deg, #003399 33.3%, #ffcc00 33.3%, #ffcc00 66.6%, #e11d48 66.6%);
+            margin-top: 40px; border-radius: 10px;
+        }
+
+        .btn-start {
+            background: var(--indomaret-yellow); color: #003399; padding: 20px 60px; 
+            font-size: 24px; border-radius: 50px; border: none; font-weight: 800; cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 204, 0, 0.4); margin-top: 40px;
+        }
+    </style>
+</head>
+<body data-theme="light">
+
+    <button class="theme-switch" onclick="toggleTheme()"><i class="fa-solid fa-moon" id="theme-icon"></i></button>
+
+    <div class="app-container">
+        
+        <!-- View 1: Home -->
+        <div class="slide-view active" id="view-home" style="background: linear-gradient(var(--overlay), var(--overlay)), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1920'); background-size: cover; justify-content: center; text-align: center; border:none;">
+            <h1 style="color: var(--indomaret-yellow); font-size: 100px; margin: 0;">INSENTIF BULANAN</h1>
+            <p style="color: #fff; font-size: 32px; font-family: 'Poppins';">PT. INDOMARCO PRISMATAMA</p>
+            <div style="width: 180px; height: 8px; background: var(--indomaret-yellow); margin: 30px auto;"></div>
+            <p style="color: #fff; font-weight: 700; font-size: 22px;">Tim Reporting & Inventory</p>
+            <button class="btn-start" onclick="navigateTo('view-dashboard')">START PRESENTATION <i class="fa-solid fa-play"></i></button>
+            <div style="margin-top: 50px; color: #fff; opacity: 0.6; font-style: italic;">made by @star</div>
+        </div>
+
+        <!-- View 2: Dashboard -->
+        <div class="slide-view" id="view-dashboard">
+            <h2 class="slide-title">Kriteria Penerimaan Point</h2>
+            <div class="pillar-list">
+                <div class="pillar-card" onclick="navigateTo('view-detail-1')">
+                    <div class="icon-circle"><i class="fa-solid fa-boxes-stacked"></i></div>
+                    <div class="pillar-text">1. Stock Out Sisi DC</div>
+                </div>
+                <div class="pillar-card" onclick="navigateTo('view-detail-2')">
+                    <div class="icon-circle"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                    <div class="pillar-text">2. Aging Penjawaban Retur Proforma</div>
+                </div>
+                <div class="pillar-card" onclick="navigateTo('view-detail-3')">
+                    <div class="icon-circle"><i class="fa-solid fa-truck-ramp-box"></i></div>
+                    <div class="pillar-text">3. Proses PB Supplier</div>
+                </div>
+                <div class="pillar-card" onclick="navigateTo('view-detail-4')">
+                    <div class="icon-circle"><i class="fa-solid fa-tags"></i></div>
+                    <div class="pillar-text">4. Aging Tag N</div>
+                </div>
+                <div class="pillar-card" onclick="navigateTo('view-detail-5')">
+                    <div class="icon-circle"><i class="fa-solid fa-file-circle-check"></i></div>
+                    <div class="pillar-text">5. Prosesan NPK</div>
+                </div>
+            </div>
+            <button style="background:var(--indomaret-red); color:#fff; border:none; padding:15px 40px; border-radius:12px; font-weight:800; align-self:flex-end; cursor:pointer;" onclick="navigateTo('view-thanks')">SELESAI</button>
+            <div class="footer-accent"></div>
+        </div>
+
+        <!-- Detail 1: Stock Out -->
+        <div class="slide-view" id="view-detail-1">
+            <button class="btn-back" onclick="navigateTo('view-dashboard')"><i class="fa-solid fa-arrow-left"></i> KEMBALI</button>
+            <h2 class="slide-title">1. Stock Out Sisi DC</h2>
+            <div class="two-column">
+                <div>
+                    <p><strong>Definisi:</strong> Item stock kosong di gudang DC yang menjadi beban tanggung jawab operasional DC. Monitoring dilakukan untuk memastikan ketersediaan barang di toko tercukupi.</p>
+                    <div class="highlight-box">
+                        <h4 style="color:var(--indomaret-blue); margin-bottom:5px;">Target Poin 100:</h4>
+                        <p style="font-size:32px; font-weight:800; color:var(--indomaret-blue); margin:0;">Stock Out &lt; 20 Item</p>
+                        <p style="font-size:14px; margin:0;">*(Berlaku untuk Cabang Luar Pulau Jawa)</p>
+                    </div>
+                </div>
+                <div class="image-wrapper"><img src="https://i.imgur.com/qZKJ9NN.png" alt="Stock Out Real"></div>
+            </div>
+            <div class="interactive-grid">
+                <div class="interactive-card">
+                    <h4 style="color:var(--indomaret-red);"><i class="fa-solid fa-ban"></i> Tidak Ada PO</h4>
+                    <p style="font-size:14px;">Barang kosong sama sekali dan belum ada Purchase Order (PO) yang diterbitkan sistem.</p>
+                </div>
+                <div class="interactive-card">
+                    <h4 style="color:var(--indomaret-yellow);"><i class="fa-solid fa-truck-arrow-right"></i> Out PO</h4>
+                    <p style="font-size:14px;">Barang kosong, sudah ada PO diterbitkan, namun belum ada pengiriman/pemenuhan dari supplier.</p>
+                </div>
+                <div class="interactive-card">
+                    <h4 style="color:var(--indomaret-blue);"><i class="fa-solid fa-chart-line"></i> SL 100%</h4>
+                    <p style="font-size:14px;">Barang sudah di-PO & dipenuhi 100%, namun kuantitas terlalu kecil sehingga barang langsung kosong kembali.</p>
+                </div>
+            </div>
+            <div class="footer-accent"></div>
+        </div>
+
+        <!-- Detail 2: Aging Proforma -->
+        <div class="slide-view" id="view-detail-2">
+            <button class="btn-back" onclick="navigateTo('view-dashboard')"><i class="fa-solid fa-arrow-left"></i> KEMBALI</button>
+            <h2 class="slide-title">2. Aging Retur Proforma</h2>
+            <div class="two-column">
+                <div>
+                    <p><strong>Definisi:</strong> Mengukur lama waktu yang dibutuhkan tim DC untuk menjawab <strong>NRB Proforma</strong> (Nota Retur Barang). Ketepatan waktu berpengaruh pada kelancaran administrasi keuangan dengan supplier.</p>
+                    <div class="highlight-box">
+                        <h4 style="color:var(--indomaret-blue); margin-bottom:5px;">SLA Penjawaban:</h4>
+                        <p style="font-size:36px; font-weight:800; color:var(--indomaret-blue); margin:0;">&lt; 2 Hari Kerja</p>
+                    </div>
+                    <p style="font-size:16px;"><i class="fa-solid fa-circle-info"></i> Perhitungan dimulai dari tanggal NRB terbentuk sampai dengan tanggal penjawaban dilakukan di sistem.</p>
+                </div>
+                <div class="image-wrapper"><img src="https://i.imgur.com/sFkDmt4.png" alt="Aging Real"></div>
+            </div>
+            <div class="footer-accent"></div>
+        </div>
+
+        <!-- Detail 3: PB Supplier -->
+        <div class="slide-view" id="view-detail-3">
+            <button class="btn-back" onclick="navigateTo('view-dashboard')"><i class="fa-solid fa-arrow-left"></i> KEMBALI</button>
+            <h2 class="slide-title">3. Proses PB Supplier</h2>
+            <div class="two-column">
+                <div>
+                    <p>Permintaan Barang (PB) ke supplier diproses setiap hari menggunakan sistem <strong>PGDCPBPROSES</strong> dan <strong>PGDCPB</strong>.</p>
+                    <ul style="padding-left:20px; margin-bottom:20px;">
+                        <li><strong>Senin - Jumat:</strong> Menunggu instruksi dari HO atau setelah HO selesai proses PB.</li>
+                        <li><strong>Minggu:</strong> Dapat diproses langsung tanpa menunggu instruksi HO.</li>
+                        <li style="color:var(--indomaret-red); font-weight:700;">Sabtu: Libur Proses.</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <h4 style="color:var(--indomaret-blue); margin-bottom:5px;">Batas Waktu (SLA):</h4>
+                        <p style="font-size:32px; font-weight:800; color:var(--indomaret-blue); margin:0;">Max Pukul 22:00 WIB</p>
+                    </div>
+                </div>
+                <div class="image-wrapper"><img src="https://i.imgur.com/4mGXzag.png" alt="PB Real"></div>
+            </div>
+            <div class="footer-accent"></div>
+        </div>
+
+        <!-- Detail 4: Tag N -->
+        <div class="slide-view" id="view-detail-4">
+            <button class="btn-back" onclick="navigateTo('view-dashboard')"><i class="fa-solid fa-arrow-left"></i> KEMBALI</button>
+            <h2 class="slide-title">4. Aging TAG N (Item Dry)</h2>
+            <div class="two-column">
+                <div>
+                    <p><strong>Item TAG N:</strong> Item dengan status Non-Aktif yang stoknya <strong>tidak boleh</strong> berada di Lokasi 01 (Barang Baik).</p>
+                    <p><strong>Prosedur Mutasi:</strong> Item di Lokasi 01 wajib segera di-<strong>DBR</strong> (Daftar Barang Rusak/Retur) agar stok berpindah secara sistem ke Lokasi 02.</p>
+                    <div class="highlight-box">
+                        <h4 style="color:var(--indomaret-blue); margin-bottom:5px;">Syarat Poin 100:</h4>
+                        <p style="font-size:36px; font-weight:800; color:var(--indomaret-blue); margin:0;">Aging &lt; 3 Bulan</p>
+                    </div>
+                </div>
+                <div class="image-wrapper"><img src="https://i.imgur.com/fKDaF08.png" alt="Tag N Real"></div>
+            </div>
+            <div class="footer-accent"></div>
+        </div>
+
+        <!-- Detail 5: NPK -->
+        <div class="slide-view" id="view-detail-5">
+            <button class="btn-back" onclick="navigateTo('view-dashboard')"><i class="fa-solid fa-arrow-left"></i> KEMBALI</button>
+            <h2 class="slide-title">5. Prosesan NPK</h2>
+            <div class="two-column">
+                <div>
+                    <p><strong>Nota Pengeluaran Khusus (NPK):</strong> Digunakan untuk mengeluarkan item tidak bergerak (Tag N, R, atau Aktif) yang tidak bisa keluar melalui NPB (Nota Pemindahan Barang).</p>
+                    <div style="display:flex; gap:10px; margin-top:20px;">
+                        <div style="flex:1; border:2px solid var(--indomaret-blue); padding:15px; border-radius:15px;">
+                            <h4 style="margin-bottom:5px;"><i class="fa-solid fa-handshake"></i> Penjualan</h4>
+                            <p style="font-size:13px; margin:0;">Beban biaya akan diberikan/ditagihkan kepada pihak Supplier.</p>
+                        </div>
+                        <div style="flex:1; border:2px solid var(--indomaret-red); padding:15px; border-radius:15px;">
+                            <h4 style="margin-bottom:5px;"><i class="fa-solid fa-house-user"></i> Pakai Sendiri</h4>
+                            <p style="font-size:13px; margin:0;">Beban biaya akan ditanggung oleh internal pihak DC.</p>
+                        </div>
+                    </div>
+                    <div class="highlight-box" style="margin-top:20px;">
+                        <h4 style="color:var(--indomaret-blue); margin-bottom:5px;">Target Poin 100:</h4>
+                        <p style="font-size:24px; font-weight:800; color:var(--indomaret-blue); margin:0;">Tgl Proses &lt; Bulan Memo NPK</p>
+                    </div>
+                </div>
+                <div class="image-wrapper"><img src="https://i.imgur.com/7UutWIB.png" alt="NPK Real"></div>
+            </div>
+            <div class="footer-accent"></div>
+        </div>
+
+        <!-- View: Thanks -->
+        <div class="slide-view" id="view-thanks" style="background: linear-gradient(rgba(0,51,153,0.96), rgba(0,51,153,0.96)); justify-content: center; text-align: center; border:none;">
+            <i class="fa-solid fa-circle-check" style="font-size: 100px; color: var(--indomaret-yellow); margin-bottom: 20px;"></i>
+            <h1 style="color: var(--indomaret-yellow); font-size: 90px; margin: 0;">TERIMA KASIH</h1>
+            <p style="color: #fff; font-size: 24px; opacity: 0.9;">Laporan Presentasi Insentif Bulanan Selesai</p>
+            <button class="btn-start" onclick="navigateTo('view-home')"><i class="fa-solid fa-rotate-left"></i> RESTART</button>
+            <div style="margin-top: 50px; color: #fff; opacity: 0.6;">made by @star</div>
+        </div>
+
+    </div>
+
+    <script>
+        function navigateTo(viewId) {
+            const views = document.querySelectorAll('.slide-view');
+            views.forEach(v => v.classList.remove('active'));
+            const target = document.getElementById(viewId);
+            if (target) {
+                target.classList.add('active');
+                target.scrollTop = 0;
+            }
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            if (body.getAttribute('data-theme') === 'light') {
+                body.setAttribute('data-theme', 'dark');
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                body.setAttribute('data-theme', 'light');
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+    </script>
+</body>
+</html>
